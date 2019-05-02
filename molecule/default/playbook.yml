@@ -1,7 +1,17 @@
 ---
 - name: Converge
   vars_files:
-    - default_vars.yml
+    - vars/common_vars.yml
   hosts: all
+  vars:
+    is_travis: "{{ lookup('env','TRAVIS') }}"
+  pre_tasks:
+    - name: Include vars
+      include_vars: "vars/ci_vars.yml"
+      when: is_travis
+
+    - name: Include vars
+      include_vars: "vars/local_vars.yml"
+      when: not is_travis
   roles:
-    - role: apache-1c
+    - role: bessonovevgen.apache-1c

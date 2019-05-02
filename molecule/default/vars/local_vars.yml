@@ -1,0 +1,10 @@
+---
+# Onec mirrors
+onec_version_specific:
+  "8.3.13.1644":
+    checksums:
+      deb: md5:486e66e97453df0e9d67028d1abc7a9b
+      rpm: md5:613e03a2147df0c9f6d0b16a0e0ab98f
+    urls:
+      deb: http://172.17.0.1/repo/deb/deb64_8_3_13_1644.tar.gz
+      rpm: http://172.17.0.1/repo/rpm/rpm64_8_3_13_1644.tar.gz

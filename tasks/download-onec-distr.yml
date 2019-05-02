@@ -17,16 +17,15 @@
 # Получить дистрибутив если его нет
 - name: Download onec dist
   when: not __onec_dist_exists.stat.exists
-  ignore_errors: True
-  with_items: "{{ onec_mirrors }}"
+  #   ignore_errors: True
+  #   with_items: "{{ onec_mirrors }}"
   get_url:
-    dest: "{{ onec_dist_storage }}"
-    url: "{{ item }}\
-        /repo/{{ platform }}\
-        /{{ platform }}64_{{ onec_version_major }}_\
+    url: "{{ onec_version_specific[onec_version].urls[platform] }}"
+    checksum: "{{ onec_version_specific[onec_version].checksums[platform] }}"
+    dest: "{{ onec_dist_storage }}/\
+        {{ platform }}64_{{ onec_version_major }}_\
         {{ onec_version_minor }}_{{ onec_version_release }}_\
         {{ onec_version_patch }}.tar.gz"
-    checksum: "{{ onec_version_specific[onec_version].checksums[platform] }}"
 
 # Распаковать архив
 - name: Unarchive dist
