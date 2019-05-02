@@ -15,12 +15,22 @@
     path: "{{ onec_dist_storage }}/{{ onec_version }}"
 
 # Получить дистрибутив если его нет
+- name: Get direct URL
+  when: not __onec_dist_exists.stat.exists and onec_version_specific[onec_version].yd_urls is defined
+  uri:
+    url: "https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key={{ onec_version_specific[onec_version].urls[platform] }}"
+    method: GET
+  register: response_json
+
+- name: Set direct URL
+  when: not __onec_dist_exists.stat.exists and onec_version_specific[onec_version].yd_urls is defined
+  set_fact:
+    yd_url: "{{ response_json.json.href }}"
+
 - name: Download onec dist
   when: not __onec_dist_exists.stat.exists
-  #   ignore_errors: True
-  #   with_items: "{{ onec_mirrors }}"
   get_url:
-    url: "{{ onec_version_specific[onec_version].urls[platform] }}"
+    url: "{{ yd_url | default(onec_version_specific[onec_version].urls[platform]) }}"
     checksum: "{{ onec_version_specific[onec_version].checksums[platform] }}"
     dest: "{{ onec_dist_storage }}/\
         {{ platform }}64_{{ onec_version_major }}_\
