@@ -1,0 +1,28 @@
+---
+language: python
+services: docker
+
+env:
+  global:
+    - ROLE_NAME: apache-1c
+  matrix:
+    - MOLECULE_DISTRO: centos7
+    - MOLECULE_DISTRO: ubuntu1604
+
+install:
+  # Install test dependencies.
+  - pip install molecule docker
+
+before_script:
+  # Use actual Ansible Galaxy role name for the project directory.
+  - cd ../
+  - mv $ROLE_NAME bessonovevgen.$ROLE_NAME
+  - cd bessonovevgen.$ROLE_NAME
+  - echo $VAULTPASS > molecule/default/vault.pass
+
+script:
+  # Run tests.
+  - ANSIBLE_VAULT_PASSWORD_FILE=vault.pass molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

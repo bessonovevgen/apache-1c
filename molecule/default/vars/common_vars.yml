@@ -6,10 +6,6 @@ onec_dist_storage: /opt/dist
 # Onec versions available
 onec_version: "8.3.13.1644"
 
-# Onec mirrors
-onec_mirrors:
-  - http://172.17.0.1
-
 # Onec DB
 databses:
   onec-db-1:
