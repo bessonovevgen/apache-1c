@@ -1,5 +1,7 @@
 ---
 - name: Converge
+  vars_files:
+    - default_vars.yml
   hosts: all
   roles:
     - role: apache-1c

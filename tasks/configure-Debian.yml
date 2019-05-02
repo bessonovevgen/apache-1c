@@ -1,0 +1,16 @@
+---
+# Генерация файлов виртуальных хостов apache для БД
+- name: Generate apache vhosts files
+  template:
+    src: "apache-vhosts.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ item.key }}.conf"
+  loop: "{{ lookup('dict', databses) }}"
+
+# Включение виртуальных хостов в Apache
+- name: Add vhost symlink in sites-enabled.
+  file:
+    src: "/etc/apache2/sites-available/{{ item.key }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ item.key }}.conf"
+    state: link
+  loop: "{{ lookup('dict', databses) }}"
+  notify: restart apache

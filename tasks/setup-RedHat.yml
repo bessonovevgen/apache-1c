@@ -1,0 +1,14 @@
+---
+# Установить пакеты 1C
+- name: Install onec packadge
+  package:
+    name: "{{ pkg_list }}"
+    state: present
+
+# TODO: copy lib or disable service
+
+- name: Ensure Apache is installed on RHEL.
+  package:
+    name: "{{ apache_packages }}"
+    state: present
+    enablerepo: "{{ apache_enablerepo | default(omit, true) }}"

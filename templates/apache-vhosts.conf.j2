@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+LoadModule _1cws_module "/opt/1C/v8.3/x86_64/wsap24.so"
+
+# 1c publication
+Alias "/{{ item.key }}" "/var/www/html/{{ item.key }}"
+<Directory "/var/www/html/{{ item.key }}">
+    AllowOverride All
+    Options None
+    Require all granted
+    SetHandler 1c-application
+    ManagedApplicationDescriptor "/var/www/html/{{ item.key }}/default.vrd"
+</Directory>

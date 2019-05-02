@@ -1,0 +1,44 @@
+{%- set conn_string -%}
+Srvr=&quot;{{ item.value.server }}&quot;;Ref=&quot;{{ item.value.name_in_cluster }}&quot;;
+{%- if item.value.usr is defined %}usr={{ item.value.usr }};{% endif %}
+{% if item.value.pwd is defined %}pwd={{ item.value.pwd }};{% endif %}
+{%- endset -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<point xmlns="http://v8.1c.ru/8.2/virtual-resource-system"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		base="/{{ item.value.base | default(item.key) }}"
+		ib="{{ conn_string }}">
+{% if item.value.ws is defined %}
+	<ws enable="false"
+			pointEnableCommon="false">
+		<point name="InterfaceVersion"
+				alias="InterfaceVersion.1cws"
+				enable="false"
+				reuseSessions="dontuse"
+				sessionMaxAge="20"
+				poolSize="10"
+				poolTimeout="5"/>
+	</ws>
+{% endif %}
+{% if item.value.odata is defined %}
+	<standardOdata enable="false"
+			reuseSessions="autouse"
+			sessionMaxAge="20"
+			poolSize="10"
+			poolTimeout="5"/>
+{% endif %}
+{% if item.value.httpServices is defined %}
+	<httpServices>
+{% for httpService in item.value.httpServices %}
+		<service name="{{ httpService }}"
+				rootUrl="{{ item.value.httpServices[httpService].rootUrl }}"
+				enable="{{ item.value.httpServices[httpService].enable|lower }}"
+				reuseSessions="{{ item.value.httpServices[httpService].reuseSessions }}"
+				sessionMaxAge="{{ item.value.httpServices[httpService].sessionMaxAge }}"
+				poolSize="{{ item.value.httpServices[httpService].poolSize }}"
+				poolTimeout="{{ item.value.httpServices[httpService].poolTimeout }}"/>
+{% endfor %}
+	</httpServices>
+{% endif %}
+</point>
