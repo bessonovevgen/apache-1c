@@ -9,15 +9,12 @@ Requirements
 1. Веб сервер для размещения дистрибутивов 1с
 2. Ubuntu, CentOS
 
-
-
 Role Variables
 --------------
 
 Путь к каталогу где будет сохранен дистрибутив 1с
 
     onec_dist_storage: /opt/dist
-
 
 Используемая версия платформы
 
@@ -49,22 +46,17 @@ Role Variables
             poolSize: 10
             poolTimeout: 5
 
-
-
 Dependencies
 ------------
 
--
+no dependency
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
-
     - hosts: servers
       roles:
-         - { role: apache-1c, x: 42 }
+        - role: bessonovevgen.apache-1c
 
 License
 -------
@@ -80,6 +72,7 @@ Based on [geerlingguy/ansible-role-apache](https://github.com/geerlingguy/ansibl
 
 TODO
 ------------------
+
 1. см. в содержимом по комменту TODO
 2. В шаблон vrd конфиг для вебсервисов, odata (сделана заглушка)
 3. Версия используемой библитеки (если установить несколько версий платформы на один хост)
