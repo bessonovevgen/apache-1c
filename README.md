@@ -6,35 +6,57 @@ Role for setup Apache for 1c publication and publicate list of bases
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+1. Веб сервер для размещения дистрибутивов 1с
+2. Ubuntu, CentOS
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+Путь к каталогу где будет сохранен дистрибутив 1с
+
+    onec_dist_storage: /opt/dist
+
+Используемая версия платформы
+
+    onec_version: "8.3.13.1644"
+
+Список хостов откуда производится загрузка дистрибутива
+
+    onec_mirrors: []
+    # onec_mirrors:
+    #   - http://172.17.0.1
+
+Список БД с параметрами для публикации 
+
+    databses: []
+
+    databses:
+      onec-db-1:                              # Имя БД
+        base: onec-db-1-context               # Контекст для vrd файла (по-умолчанию используется Имя БД)
+        server: 127.0.0.1:1541,127.0.0.2:2541 # Адрес(-а) кластера сервера(-ов) 1С
+        name_in_cluster: onec-db-1-prod       # Имя БД в кластере
+        usr: user                             # Имя пользователя для подключния к Бд (по умолчанию не задано)
+        pwd: pass                             # Пароль пользователя для подключния к Бд (по умолчанию не задан) 
+        httpServices:                         # Список публикуемых http сервисов
+          service1:                           # Имя публикуемого http сервиса    
+            rootUrl: service1
+            enable: false
+            reuseSessions: autouse
+            sessionMaxAge: 20
+            poolSize: 10
+            poolTimeout: 5
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+no dependency
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
-
     - hosts: servers
       roles:
-         - { role: apache-1c, x: 42 }
+        - role: bessonovevgen.apache-1c
 
 License
 -------
@@ -44,5 +66,15 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+Bessonov Evgeniy (evgen@ievgen.ru)
+
+Based on [geerlingguy/ansible-role-apache](https://github.com/geerlingguy/ansible-role-apache)
+
+TODO
+------------------
+
+1. см. в содержимом по комменту TODO
+2. В шаблон vrd конфиг для вебсервисов, odata (сделана заглушка)
+3. Версия используемой библитеки (если установить несколько версий платформы на один хост)
+4. Удаление не нужных виртуальных хостов
+5. Использовать виртуальные хосты с поддоменом

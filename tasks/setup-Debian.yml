@@ -1,0 +1,18 @@
+---
+# Установить пакеты 1C
+- name: Install onec package
+  apt:
+    deb: "{{ pkg_list|join(',') }}"
+    force: yes
+
+# TODO: copy lib or disable service
+
+- name: Update apt cache.
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Ensure Apache is installed on Debian.
+  apt:
+    name: "{{ apache_packages }}"
+    state: present
