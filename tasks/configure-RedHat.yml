@@ -4,5 +4,5 @@
   template:
     src: "apache-vhosts.conf.j2"
     dest: "/etc/httpd/conf.d/{{ item.key }}.conf"
-  loop: "{{ lookup('dict', databses) }}"
+  loop: "{{ lookup('dict', databses, wantlist=True) }}"
   notify: restart apache

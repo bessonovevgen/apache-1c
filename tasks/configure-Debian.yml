@@ -4,7 +4,7 @@
   template:
     src: "apache-vhosts.conf.j2"
     dest: "/etc/apache2/sites-available/{{ item.key }}.conf"
-  loop: "{{ lookup('dict', databses) }}"
+  loop: "{{ lookup('dict', databses, wantlist=True) }}"
 
 # Включение виртуальных хостов в Apache
 - name: Add vhost symlink in sites-enabled.
@@ -12,5 +12,5 @@
     src: "/etc/apache2/sites-available/{{ item.key }}.conf"
     dest: "/etc/apache2/sites-enabled/{{ item.key }}.conf"
     state: link
-  loop: "{{ lookup('dict', databses) }}"
+  loop: "{{ lookup('dict', databses, wantlist=True) }}"
   notify: restart apache

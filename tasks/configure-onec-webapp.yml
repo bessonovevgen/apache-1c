@@ -5,11 +5,11 @@
     path: "/var/www/html/{{ item.key }}"
     state: directory
     mode: 0755
-  loop: "{{ lookup('dict', databses) }}"
+  loop: "{{ lookup('dict', databses, wantlist=True) }}"
 
 # Генерация соответствующего vrd файла
 - name: Generate vrd files
   template:
     src: "default.vrd.j2"
     dest: "/var/www/html/{{ item.key }}/default.vrd"
-  loop: "{{ lookup('dict', databses) }}"
+  loop: "{{ lookup('dict', databses, wantlist=True) }}"
