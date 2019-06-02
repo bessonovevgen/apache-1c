@@ -1,5 +1,6 @@
 Apache-1c Role
 =========
+[![Build Status](https://travis-ci.org/bessonovevgen/apache-1c.svg?branch=master)](https://travis-ci.org/bessonovevgen/apache-1c)
 
 Role for setup Apache for 1c publication and publicate list of bases
 
